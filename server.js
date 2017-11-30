@@ -7,7 +7,7 @@ var cors = require('cors')
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-
+var User = require('./api/models/userModel'); // create model User loading here
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/server_blog_db');
 
@@ -28,4 +28,8 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     next();
 });
+
+var routerUser = require('./api/routers/userRoter');
+routerUser(app);
+
 app.listen(port, ()=> console.log("Server running on port " + port));
