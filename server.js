@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
+var cookieSession = require('cookie-session');
 var path = require('path');
 var cors = require('cors')
 var bodyParser = require('body-parser');
@@ -21,6 +22,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+app.use(cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2'],
+  
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }))
+
+
+  app.get('/hihi', function (req, res, next) {
+    // Update views
+    req.session.views = (req.session.views || 0) + 1
+  
+    // Write response
+    res.end(req.session.views + ' views')
+  })
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

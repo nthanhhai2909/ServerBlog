@@ -6,5 +6,5 @@ module.exports = (app) => {
     .post(userController.signup);
 
     app.route('/login')
-    .post(userController.login);
+    .post(userController.login)
 }
